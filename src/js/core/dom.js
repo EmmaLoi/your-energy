@@ -6,22 +6,32 @@ export const qsa = (selector, root = document) =>
 export const byId = id => document.getElementById(id);
 
 export const on = (target, type, handler, options) => {
-  if (!target) return;
+  if (!target) {
+    return;
+  }
   target.addEventListener(type, handler, options);
 };
 
 export const delegate = (target, type, selector, handler) => {
-  if (!target) return;
+  if (!target) {
+    return;
+  }
   target.addEventListener(type, e => {
     const matched = e.target instanceof Element ? e.target.closest(selector) : null;
-    if (matched && target.contains(matched)) handler(e, matched);
+    if (matched && target.contains(matched)) {
+      handler(e, matched);
+    }
   });
 };
 
 export const setText = (el, text) => {
-  if (el) el.textContent = text;
+  if (el) {
+    el.textContent = text;
+  }
 };
 
 export const setAttr = (el, name, value) => {
-  if (el) el.setAttribute(name, String(value));
+  if (el) {
+    el.setAttribute(name, String(value));
+  }
 };

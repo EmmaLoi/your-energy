@@ -12,7 +12,9 @@ function showServerMessage(message, type = 'error') {
   const messageTextElement = document.getElementById(
     'js-rating-server-message-text'
   );
-  if (!messageElement || !messageTextElement) return;
+  if (!messageElement || !messageTextElement) {
+    return;
+  }
 
   messageTextElement.textContent = message;
   messageElement.classList.remove(
@@ -28,7 +30,9 @@ function hideServerMessage() {
   const messageTextElement = document.getElementById(
     'js-rating-server-message-text'
   );
-  if (!messageElement) return;
+  if (!messageElement) {
+    return;
+  }
 
   messageElement.classList.remove('rating-modal__server-message--visible');
   if (messageTextElement) {
@@ -42,7 +46,9 @@ function hideServerMessage() {
 
 function closeRatingModal() {
   const modal = document.getElementById('js-rating-modal');
-  if (!modal) return;
+  if (!modal) {
+    return;
+  }
 
   modal.classList.remove('rating-modal--open');
   document.body.style.overflow = '';
@@ -62,7 +68,9 @@ function closeRatingModal() {
 
 export function openRatingModal(exerciseId) {
   const modal = document.getElementById('js-rating-modal');
-  if (!modal) return;
+  if (!modal) {
+    return;
+  }
 
   currentExerciseIdForRating = exerciseId;
 
@@ -72,8 +80,12 @@ export function openRatingModal(exerciseId) {
   const ratingValue = document.getElementById('js-rating-modal-value');
   const stars = document.querySelectorAll('.rating-modal__star');
 
-  if (form) form.reset();
-  if (ratingValue) ratingValue.textContent = '0.0';
+  if (form) {
+    form.reset();
+  }
+  if (ratingValue) {
+    ratingValue.textContent = '0.0';
+  }
 
   const emailError = document.getElementById('js-email-error');
   const commentError = document.getElementById('js-comment-error');
@@ -271,7 +283,6 @@ export function initRatingModal() {
       }
 
       if (currentExerciseIdForRating) {
-
         hideServerMessage();
 
         fetch(
@@ -292,7 +303,6 @@ export function initRatingModal() {
             const data = await response.json();
 
             if (!response.ok) {
-
               throw { message: data.message, data };
             }
 

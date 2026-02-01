@@ -13,7 +13,9 @@ function getModal() {
 
 export function closeExerciseModal() {
   const modal = getModal();
-  if (!modal) return;
+  if (!modal) {
+    return;
+  }
   modal.classList.remove('exercise-modal--open');
   document.body.style.overflow = '';
   activeExerciseId = null;
@@ -21,7 +23,9 @@ export function closeExerciseModal() {
 
 function setFavoriteButtonState(exerciseId) {
   const button = byId('js-exercise-modal-favorites');
-  if (!button) return;
+  if (!button) {
+    return;
+  }
 
   const inFavorites = isFavorite(exerciseId);
   const textNode = button.querySelector('span');
@@ -29,8 +33,12 @@ function setFavoriteButtonState(exerciseId) {
 
   button.classList.toggle('active', inFavorites);
 
-  if (textNode) textNode.textContent = inFavorites ? 'Remove from favorites' : 'Add to favorites';
-  if (!iconPath) return;
+  if (textNode) {
+    textNode.textContent = inFavorites ? 'Remove from favorites' : 'Add to favorites';
+  }
+  if (!iconPath) {
+    return;
+  }
 
   if (inFavorites) {
     setAttr(iconPath, 'fill', 'currentColor');
@@ -44,13 +52,17 @@ function setFavoriteButtonState(exerciseId) {
 }
 
 function renderStars(container, ratingValue) {
-  if (!container) return;
+  if (!container) {
+    return;
+  }
   const stars = qsa('.exercise-modal__rating-star', container);
   const rating = Math.round(Number(ratingValue || 0));
 
   stars.forEach((star, index) => {
     const path = star.querySelector('path');
-    if (!path) return;
+    if (!path) {
+      return;
+    }
 
     if (index < rating) {
       setAttr(path, 'fill', '#EEA10C');
@@ -86,7 +98,9 @@ function resetModalContent() {
   setText(calories, '0');
   setText(time, '/0 min');
   setText(description, '');
-  if (image) image.src = '';
+  if (image) {
+    image.src = '';
+  }
   renderStars(ratingStars, 0);
 }
 
@@ -103,7 +117,9 @@ function fillModalContent(exercise) {
   const time = byId('js-exercise-modal-time');
   const description = byId('js-exercise-modal-description');
 
-  if (image) image.src = exercise.gifUrl || '';
+  if (image) {
+    image.src = exercise.gifUrl || '';
+  }
   setText(title, exercise.name || '');
   setText(target, exercise.target || '');
   setText(bodyPart, exercise.bodyPart || '');
@@ -120,7 +136,9 @@ function fillModalContent(exercise) {
 
 export async function openExerciseModal(exerciseId) {
   const modal = getModal();
-  if (!modal) return;
+  if (!modal) {
+    return;
+  }
 
   activeExerciseId = exerciseId;
   modal.classList.add('exercise-modal--open');
@@ -130,8 +148,10 @@ export async function openExerciseModal(exerciseId) {
 
   try {
     const exercise = await fetchJson(`/exercises/${exerciseId}`);
-    
-    if (activeExerciseId !== exerciseId) return;
+
+    if (activeExerciseId !== exerciseId) {
+      return;
+    }
     fillModalContent(exercise);
     setFavoriteButtonState(exerciseId);
   } catch {
@@ -144,7 +164,9 @@ export async function openExerciseModal(exerciseId) {
 
 export function initExerciseModal() {
   const modal = getModal();
-  if (!modal) return;
+  if (!modal) {
+    return;
+  }
 
   const closeBtn = byId('js-exercise-modal-close');
   const overlay = modal.querySelector('.exercise-modal__overlay');
@@ -152,9 +174,11 @@ export function initExerciseModal() {
   on(closeBtn, 'click', closeExerciseModal);
   on(overlay, 'click', closeExerciseModal);
 
-  
+
   on(byId('js-exercise-modal-favorites'), 'click', () => {
-    if (!activeExerciseId) return;
+    if (!activeExerciseId) {
+      return;
+    }
     const wasAdded = toggleFavorite(activeExerciseId);
     setFavoriteButtonState(activeExerciseId);
 
@@ -164,9 +188,11 @@ export function initExerciseModal() {
     }
   });
 
-  
+
   on(byId('js-exercise-modal-rating-btn'), 'click', () => {
-    if (!activeExerciseId) return;
+    if (!activeExerciseId) {
+      return;
+    }
     const exerciseId = activeExerciseId;
     closeExerciseModal();
     openRatingModal(exerciseId);

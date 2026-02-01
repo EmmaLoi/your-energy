@@ -18,20 +18,26 @@ function renderActiveNav(page) {
 
 function openMobileMenu() {
   const menu = qs('.mobile-menu');
-  if (!menu) return;
+  if (!menu) {
+    return;
+  }
   menu.classList.add('is-open');
   document.body.style.overflow = 'hidden';
 }
 
 function closeMobileMenu() {
   const menu = qs('.mobile-menu');
-  if (!menu) return;
+  if (!menu) {
+    return;
+  }
   menu.classList.remove('is-open');
   document.body.style.overflow = '';
 }
 
 function setActivePage(page) {
-  if (activePage === page) return;
+  if (activePage === page) {
+    return;
+  }
   activePage = page;
 
   renderActiveNav(activePage);
@@ -56,21 +62,23 @@ export function initHeader() {
   }
 
   renderActiveNav(activePage);
-  if (activePage === 'home') showHomeView();
-  else showFavoritesView();
+  if (activePage === 'home') {
+    showHomeView();
+  } else {
+    showFavoritesView();
+  }
 
-  
   delegate(document, 'click', '.header__nav-link', (e, link) => {
     e.preventDefault();
     const page = link.getAttribute('data-page');
-    if (page === 'home' || page === 'favorites') setActivePage(page);
+    if (page === 'home' || page === 'favorites') {
+      setActivePage(page);
+    }
   });
 
-  
   on(qs('.header__burger'), 'click', openMobileMenu);
   on(qs('.mobile-menu__close'), 'click', closeMobileMenu);
 
-  
   delegate(document, 'click', '.mobile-menu__nav-link', (e, link) => {
     e.preventDefault();
     const page = link.getAttribute('data-page');
@@ -80,9 +88,10 @@ export function initHeader() {
     }
   });
 
-  
   const menu = qs('.mobile-menu');
   on(menu, 'click', e => {
-    if (e.target === menu) closeMobileMenu();
+    if (e.target === menu) {
+      closeMobileMenu();
+    }
   });
 }

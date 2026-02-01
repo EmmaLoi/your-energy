@@ -29,14 +29,20 @@ const state = {
 
 function showSearch() {
   const wrap = qs(UI.searchWrap);
-  if (wrap) wrap.style.display = 'flex';
+  if (wrap) {
+    wrap.style.display = 'flex';
+  }
 }
 
 function hideSearch() {
   const wrap = qs(UI.searchWrap);
   const input = qs(UI.searchInput);
-  if (wrap) wrap.style.display = 'none';
-  if (input) input.value = '';
+  if (wrap) {
+    wrap.style.display = 'none';
+  }
+  if (input) {
+    input.value = '';
+  }
   state.search = '';
 }
 
@@ -49,14 +55,28 @@ function setHomeLayoutVisible(isHome) {
   const home = qs(UI.homeBlock);
   const exercises = qs(UI.exercisesBlock);
 
-  if (hero) hero.style.display = isHome ? 'flex' : 'none';
-  if (controls) controls.style.display = isHome ? 'flex' : 'none';
-  if (sidebarImage) sidebarImage.style.display = isHome ? 'block' : 'none';
-  if (dailyNorm) dailyNorm.style.display = isHome ? 'flex' : 'none';
-  if (favoritesPromo) favoritesPromo.style.display = isHome ? 'none' : 'grid';
+  if (hero) {
+    hero.style.display = isHome ? 'flex' : 'none';
+  }
+  if (controls) {
+    controls.style.display = isHome ? 'flex' : 'none';
+  }
+  if (sidebarImage) {
+    sidebarImage.style.display = isHome ? 'block' : 'none';
+  }
+  if (dailyNorm) {
+    dailyNorm.style.display = isHome ? 'flex' : 'none';
+  }
+  if (favoritesPromo) {
+    favoritesPromo.style.display = isHome ? 'none' : 'grid';
+  }
 
-  if (home) home.classList.toggle('home--favorites', !isHome);
-  if (exercises) exercises.classList.toggle('exercises--favorites', !isHome);
+  if (home) {
+    home.classList.toggle('home--favorites', !isHome);
+  }
+  if (exercises) {
+    exercises.classList.toggle('exercises--favorites', !isHome);
+  }
 }
 
 function setFiltersActive(filter) {
@@ -67,7 +87,9 @@ function setFiltersActive(filter) {
 
 function renderCards(html, isItemsView) {
   const cards = qs(UI.cards);
-  if (!cards) return;
+  if (!cards) {
+    return;
+  }
   cards.classList.toggle('exercises__cards--items', Boolean(isItemsView));
   cards.innerHTML = html;
 }
@@ -85,7 +107,9 @@ function renderEmptyState(message) {
 
 function clearPagination() {
   const pagination = qs(UI.pagination);
-  if (pagination) pagination.innerHTML = '';
+  if (pagination) {
+    pagination.innerHTML = '';
+  }
 }
 
 function renderPagination(totalPages, currentPage) {
@@ -93,11 +117,15 @@ function renderPagination(totalPages, currentPage) {
   if (!pagination) return;
   pagination.innerHTML = '';
 
-  if (!totalPages || totalPages <= 1) return;
+  if (!totalPages || totalPages <= 1) {
+    return;
+  }
 
   const go = page => {
     state.page = page;
-    if (state.mode === 'favorites') return;
+    if (state.mode === 'favorites') {
+      return;
+    }
     if (state.category) {
       loadExercises(state.category, page, state.search);
     } else {
@@ -124,7 +152,9 @@ function renderPagination(totalPages, currentPage) {
 
   const pageBtn = page => {
     const b = btn(String(page), false, () => go(page), 'exercises__pagination-page');
-    if (page === currentPage) b.classList.add('exercises__pagination-page--active');
+    if (page === currentPage) {
+      b.classList.add('exercises__pagination-page--active');
+    }
     return b;
   };
 
@@ -235,7 +265,9 @@ function exerciseCardTemplate(exercise) {
 
 function updateBreadcrumbs(categoryName = null) {
   const container = qs(UI.breadcrumbs);
-  if (!container) return;
+  if (!container) {
+    return;
+  }
   container.innerHTML = '';
 
   if (state.mode === 'favorites') {
@@ -251,7 +283,9 @@ function updateBreadcrumbs(categoryName = null) {
   exercises.className = 'exercises__breadcrumb-item';
   exercises.textContent = 'Exercises';
   exercises.setAttribute('data-breadcrumb', 'exercises');
-  if (!categoryName) exercises.classList.add('exercises__breadcrumb-item--active');
+  if (!categoryName) {
+    exercises.classList.add('exercises__breadcrumb-item--active');
+  }
   on(exercises, 'click', () => {
     state.category = null;
     state.page = 1;
@@ -316,7 +350,9 @@ async function loadExercises(categoryName, page = 1, keyword = state.search) {
   params.set(filterKey, categoryName);
   params.set('page', String(page));
   params.set('limit', '10');
-  if (keyword && String(keyword).trim()) params.set('keyword', String(keyword).trim());
+  if (keyword && String(keyword).trim()) {
+    params.set('keyword', String(keyword).trim());
+  }
 
   const data = await fetchJson(`/exercises?${params.toString()}`);
   const list = data?.results || [];
@@ -404,19 +440,22 @@ export function showFavoritesView() {
   loadFavoritesExercises();
 }
 
-const switchToHome = showHomeView;
-const switchToFavorites = showFavoritesView;
-
 function initSearch() {
   const input = qs(UI.searchInput);
-  if (!input) return;
+  if (!input) {
+    return;
+  }
   let timer = null;
 
   on(input, 'input', () => {
-    if (timer) clearTimeout(timer);
+    if (timer) {
+      clearTimeout(timer);
+    }
     timer = setTimeout(() => {
       const keyword = input.value.trim();
-      if (state.category) loadExercisesByCategory(state.category, 1, keyword);
+      if (state.category) {
+        loadExercisesByCategory(state.category, 1, keyword);
+      }
     }, 350);
   });
 }
@@ -424,7 +463,9 @@ function initSearch() {
 function initFilters() {
   delegate(document, 'click', UI.filters, (e, button) => {
     const filter = button.getAttribute('data-filter');
-    if (!filter) return;
+    if (!filter) {
+      return;
+    }
     setFiltersActive(filter);
     updateBreadcrumbs(null);
     loadExerciseCards(filter, 1);
@@ -433,7 +474,9 @@ function initFilters() {
 
 function initCardsClickHandling() {
   const cards = qs(UI.cards);
-  if (!cards) return;
+  if (!cards) {
+    return;
+  }
 
   delegate(cards, 'click', '.exercise-card', (e, card) => {
 
@@ -456,7 +499,9 @@ function initCardsClickHandling() {
 
 
     const exerciseId = card.getAttribute('data-exercise-id');
-    if (exerciseId) openExerciseModal(exerciseId);
+    if (exerciseId) {
+      openExerciseModal(exerciseId);
+    }
   });
 }
 
