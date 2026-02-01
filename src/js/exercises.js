@@ -377,7 +377,6 @@ export async function loadFavoritesExercises() {
   updateBreadcrumbs(null);
   hideSearch();
   clearPagination();
-
   const favoriteIds = getFavorites();
   if (!favoriteIds.length) {
     renderEmptyState(

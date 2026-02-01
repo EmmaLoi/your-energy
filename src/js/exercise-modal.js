@@ -174,7 +174,6 @@ export function initExerciseModal() {
   on(closeBtn, 'click', closeExerciseModal);
   on(overlay, 'click', closeExerciseModal);
 
-
   on(byId('js-exercise-modal-favorites'), 'click', () => {
     if (!activeExerciseId) {
       return;
